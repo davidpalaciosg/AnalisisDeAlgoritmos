@@ -1,6 +1,6 @@
 # Análisis De Algoritmos
 
-##Conformado por: 
+## Conformado por: 
 - Coral Godoy Karen Sofía
 - Palacios García David Enrique
 
