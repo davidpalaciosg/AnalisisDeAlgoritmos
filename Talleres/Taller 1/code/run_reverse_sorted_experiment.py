@@ -9,6 +9,7 @@ Ejecutar en consola:
 
 python run_reverse_sorted_experiment.py archivoAProcesar tamMinimo tamMaximo salto 
 """
+from random import randint
 import struct, sys, time
 from NaiveBubbleSort import *
 from ImprovedBubbleSort import *
@@ -25,7 +26,7 @@ def IsSorted( S ):
 
 ## -------------------------------------------------------------------------
 def DoExperiment( S, f ):
-  r = 5
+  r = 10
   t = 0
   s = True
   for i in range( r ):
@@ -40,27 +41,21 @@ def DoExperiment( S, f ):
 # end def
 
 ## -------------------------------------------------------------------------
+def GenerateRandomNumber():
+  return randint(-1000000,1000000)
+## -------------------------------------------------------------------------
 # Inputs
-input_file = open( sys.argv[ 1 ], 'rb' )
-input_buffer = input_file.read( )
-input_file.close( )
-b = int( sys.argv[ 2 ] )
-e = int( sys.argv[ 3 ] )
-s = int( sys.argv[ 4 ] )
+b = int( sys.argv[ 1 ] )
+e = int( sys.argv[ 2 ] )
+s = int( sys.argv[ 3 ] )
 
-# Data type configuration
-element_type = int
-element_size = 4
-element_id = 'i'
-N = len( input_buffer ) // element_size
-
-# Read sequence as numbers
+# Generate random sequence
 input_sequence = []
-for i in range( N ):
-  input_sequence += [ struct.unpack( element_id, input_buffer[ element_size * i : element_size * ( i + 1 ) ] )[ 0 ] ]
+for i in range( e ):
+  input_sequence.append(GenerateRandomNumber())
 # end for
 
-input_sequence.sort(reverse=True) #NEW LINE
+input_sequence.sort(reverse=True) # Sort the sequence on reverse with python sort
 
 # Perform experiments
 for n in range( b, e + 1, s ):
