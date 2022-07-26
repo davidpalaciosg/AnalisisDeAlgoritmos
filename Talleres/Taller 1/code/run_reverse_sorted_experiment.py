@@ -7,7 +7,7 @@
 Manual de uso:
 Ejecutar en consola:
 
-python run_sorted_experiment.py archivoAProcesar tamMinimo tamMaximo salto 
+python run_reverse_sorted_experiment.py archivoAProcesar tamMinimo tamMaximo salto 
 """
 import struct, sys, time
 from NaiveBubbleSort import *
@@ -60,7 +60,7 @@ for i in range( N ):
   input_sequence += [ struct.unpack( element_id, input_buffer[ element_size * i : element_size * ( i + 1 ) ] )[ 0 ] ]
 # end for
 
-input_sequence.sort() #NEW LINE
+input_sequence.sort(reverse=True) #NEW LINE
 
 # Perform experiments
 for n in range( b, e + 1, s ):
