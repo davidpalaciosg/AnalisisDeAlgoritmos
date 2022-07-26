@@ -7,7 +7,7 @@
 Manual de uso:
 Ejecutar en consola:
 
-python run_reverse_sorted_experiment.py archivoAProcesar tamMinimo tamMaximo salto 
+python run_reverse_sorted_experiment.py tamMinimo tamMaximo salto 
 """
 from random import randint
 import struct, sys, time
