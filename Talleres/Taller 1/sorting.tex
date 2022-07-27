@@ -1,5 +1,7 @@
 %% ===============================================================================================
 %% @author Leonardo Florez-Valencia (florez-l@javeriana.edu.co)
+%% @author David Enrique Palacios García (david_palacios@javeriana.edu.co)
+%% @author Karen Sofía Coral Godoy (corallg_ksofia@javeriana.edu.co)
 %% ===============================================================================================
 
 \documentclass[letter]{article}
@@ -14,16 +16,16 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{mathrsfs}
-
+\graphicspath{ {graphics/} }
 % Some definitions
 \floatname{algorithm}{Algoritmo}
 
 % Author info
 \title{Escritura del problema del ordenamiento de datos}
-\author{Leonardo Flórez Valencia$^1$ \and Pepito Pérez$^1$}
+\author{David Enrique Palacios García$^1$ \and Karen Sofia Coral Godoy$^1$}
 \date{
 	$^1$Departamento de Ingeniería de Sistemas, Pontificia Universidad Javeriana\\Bogotá,  Colombia \\
-	\texttt{\{florez-l, pperez\}@javeriana.edu.co}\\~\\
+	\texttt{\{david\_palacios, corallg\_ksofia\}@javeriana.edu.co}\\~\\
 	\today
 }
 
@@ -192,9 +194,35 @@ Acá se presentan los experimentos cuando los algoritmos se ejecutan con secuenc
 \begin{enumerate}
     \item Cargar en memoria un archivo de, al menos, 200Kb.
     \item Definir un rango $(b,e,s)\in\mathbb{N}^3$, donde: $b$ es un tamaño inicial, $e$ es un tamaño final y $s$ es un salto. Se generarán secuencias, a partir del archivo de entrada, de diferentes tamaños desde $b$ hasta $e$, adicionando cada vez $s$ elementos.
-    \item Cada algoritmo se ejecutará 10 veces con cada secuencia y se guardará el tiempo promedio de ejecución.
+    \item Cada algoritmo se ejecutará 5 veces con cada secuencia y se guardará el tiempo promedio de ejecución.
     \item Se generan los gráficos necesarios para comparar los algoritmos.
 \end{enumerate}
+
+\subsubsection{Experimentación}
+\begin{enumerate}
+    \item Se utilizó el programa \texttt{$run\_random\_experiment.py$} con los parámetros de entrada:
+    \begin{itemize}
+        \item \texttt{paisajeMedio.webp} con un peso de \texttt{345KB} como archivo de entrada
+        \item \texttt{b=0} como tamaño inicial del arreglo
+        \item \texttt{e=10000} como tamaño final del arreglo
+        \item \texttt{s=100} como saltos entre iteraciones del algoritmo
+    \end{itemize}
+    \item El programa logró finalizar sin complicaciones, con un tiempo estimado de 2 horas.
+    \item Se obtuvieron 100 datos con el tiempo promedio de cada uno de los algoritmos, logrando así crear la siguiente gráfica: (ver Figura 1)
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.90]{randomDataGraphic.png}
+    \label{experimentos:aleatorias:grafica}
+    \caption{Tiempo de ejecución de los algoritmos con datos desordenados}
+\end{figure}
+
+\subsubsection{Análisis del experimento}
+\label{experimentos:aleatorias:analisis}
+Como se puede notar, en este caso los 3 algoritmos tienen una complejidad $\Theta(n^{2})$, sin embargo, a partir de arreglos de 1500 datos, se empiezan a notar diferencias entre ellos. La principal es que es evidente que, aunque no deja de ser cuadrática, el Insertion Sort es mucho más rápido que el Bubble Sort Inocente y su contraparte mejorada. Eso sí, también se nota la mejoría del Bubble Sort aplicando la correción estudiada anteriormente.
+
+Así mismo, aplicando herramientas de Microsoft Excel, se pudo obtener las fórmulas de las regresiones cuadráticas de estos algoritmos, confirmando así su tendencia hacia $n^2$.
 
 \subsection{Secuencias ordenadas} \label{experimentos:ordenadas}
 
@@ -204,9 +232,40 @@ Acá se presentan los experimentos cuando los algoritmos se ejecutan con secuenc
 \begin{enumerate}
     \item Definir un rango $(b,e,s)\in\mathbb{N}^3$, donde: $b$ es un tamaño inicial, $e$ es un tamaño final y $s$ es un salto. Se generarán secuencias aleatorias de diferentes tamaños desde $b$ hasta $e$, adicionando cada vez $s$ elementos.
     \item Se usará el algoritmo \texttt{sort(S)}, disponible en la librería básica de python, para ordenar dicha secuencia.
-    \item Cada algoritmo se ejecutará 10 veces con cada secuencia ordenada y se guardará el tiempo promedio de ejecución.
+    \item Cada algoritmo se ejecutará 5 veces con cada secuencia ordenada y se guardará el tiempo promedio de ejecución.
     \item Se generan los gráficos necesarios para comparar los algoritmos.
 \end{enumerate}
+
+\subsubsection{Experimentación}
+\begin{enumerate}
+    \item Se utilizó el programa \texttt{$run\_sorted\_experiment.py$} con los parámetros de entrada:
+    \begin{itemize}
+        \item \texttt{b=0} como tamaño inicial del arreglo
+        \item \texttt{e=10000} como tamaño final del arreglo
+        \item \texttt{s=100} como saltos entre iteraciones del algoritmo
+    \end{itemize}
+    \item Se creó un arreglo de tamaño \texttt{e} con números aleatorios entre -1000000 y 1000000.
+    \item Utilizando la función \texttt{sort(S)} de la librería básica de Pyhton, se ordena ascendentemente el arreglo y se empiezan a ejecutar los algoritmos. 
+    \item El programa logró finalizar sin complicaciones, con un tiempo estimado de hora y media.
+    \item Se obtuvieron 100 datos con el tiempo promedio de cada uno de los algoritmos, logrando así crear la siguiente gráfica: (ver Figura 2)
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.9]{sortedDataGraphic.png}
+    \caption{Tiempo de ejecución de los algoritmos con datos ordenados ascendentemente}
+   \label{experimentos:ordenadas:grafica}
+\end{figure}
+
+
+\subsubsection{Análisis del experimento}
+\label{experimentos:ordenadas:analisis}
+Una vez más, podemos notar la complejidad $\Theta(n^2)$ para Bubble Sort en sus dos variantes; no obstante, se mejora bastante el tiempo de ejecucicón, pues pasa de un máximo de 14 segundos a uno de aproximádamente 12 segundos.
+
+Por otra parte, es clave notar el mejor caso posible para Insertion Sort.El hecho de que sea casi tangente al eje x nos demuestra que su cota de complejidad inferior se cumple, siendo $\Omega(n)$.
+
+Además, haciendo el análisis de regresión de las curvas, notamos que el Insertion Sort no deja de ser cuadrática, sin embargo, la constante que acompaña al $x^2$ es $-2^{-7}$, lo que lo hace tender a 0. Esto ocasiona que se convierta en una función lineal, muy cercana al eje horizontal de la gráfica.
+
 
 \subsection{Secuencias ordenadas invertidas} \label{experimentos:invertidas}
 
@@ -215,10 +274,57 @@ Acá se presentan los experimentos cuando los algoritmos se ejecutan con secuenc
 \subsubsection{Protocolo}
 \begin{enumerate}
     \item Definir un rango $(b,e,s)\in\mathbb{N}^3$, donde: $b$ es un tamaño inicial, $e$ es un tamaño final y $s$ es un salto. Se generarán secuencias aleatorias de diferentes tamaños desde $b$ hasta $e$, adicionando cada vez $s$ elementos.
-    \item Se usará el algoritmo \texttt{sort(S)}, disponible en la librería básica de python, para ordenar dicha secuencia.
-    \item Cada algoritmo se ejecutará 10 veces con cada secuencia ordenada y se guardará el tiempo promedio de ejecución.
+    \item Se usará el algoritmo \texttt{sort(S)} con el parámetro \texttt{reverse=True}, disponible en la librería básica de python, para ordenar dicha secuencia de manera descendente.
+    \item Cada algoritmo se ejecutará 5 veces con cada secuencia ordenada y se guardará el tiempo promedio de ejecución.
     \item Se generan los gráficos necesarios para comparar los algoritmos.
 \end{enumerate}
+
+\subsubsection{Experimentación}
+\begin{enumerate}
+    \item Se utilizó el programa \texttt{$run\_reverse\_sorted\_experiment.py$} con los parámetros de entrada:
+    \begin{itemize}
+        \item \texttt{b=0} como tamaño inicial del arreglo
+        \item \texttt{e=10000} como tamaño final del arreglo
+        \item \texttt{s=100} como saltos entre iteraciones del algoritmo
+    \end{itemize}
+    \item Se creó un arreglo de tamaño \texttt{e} con números aleatorios entre -1000000 y 1000000.
+    \item Utilizando la función \texttt{sort(S)} de la librería básica de Pyhton, junto con el parámetro \texttt{reverse=True}, se ordena descendentemente el arreglo y se empiezan a ejecutar los algoritmos. 
+    \item El programa logró finalizar sin complicaciones, con un tiempo estimado de 2 horas y media.
+    \item Se obtuvieron 100 datos con el tiempo promedio de cada uno de los algoritmos, logrando así crear la siguiente gráfica: (ver Figura 3)
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=1]{reverseSortedDataGraphic.png}
+    \caption{Tiempo de ejecución de los algoritmos con datos ordenados descendentemente}
+   \label{experimentos:invertidas:grafica}
+\end{figure}
+
+
+\subsubsection{Análisis del experimento}
+\label{experimentos:invertidas:analisis}
+Para los 3 algoritmos, este fue el peor escenario posible. Es aquí donde las iteraciones tomaron más tiempo para lograr ordenar los arreglos. Esto ocurre por la invariante de los algoritmos, donde, en el caso de Bubble Sort se busca ubicar los valores más grandes hacia el final del arreglo, y en Insertion Sort, en el que se ajustan primero los menores valores.
+
+Es interesante cuestionarse qué tipo de algoritmo implementa \texttt{sort(S)} de Python, pues únicamente añadiendo el parámetro \texttt{reverse=True}, efectúa el ordenamiento descendente de manera casi instantánea.
+
+Investigando un poco en internet, se encontró que, \cite{Ed} desde la versión 2.3 de Python, éste usa el TimSort para ordenar los datos. Este algoritmo tiene una complejidad de $O(nlogn)$ siendo así uno basado en la estrategia de divide y vencerás, logrando su objetivo a velocidades prácticamente imperceptibles.
+
+\section{Conclusiones}
+Los experimentos fueron útiles para concluir:
+\begin{enumerate}
+    \item El tiempo de ejecución para el caso promedio (datos aleatorios) de estos algoritmos tiene una complejidad de $\Theta(n^2)$
+    \item Insertion Sort tiene una cota de complejidad de $\Omega(n)$ si el arreglo está previamente ordenado de manera ascendente.
+    \item Para todos los algoritmos, el peor caso es cuando el arreglo está previamente ordenado de manera descendente. Aquí, la cota de complejidad es $O(n^2)$.
+    \item Los algoritmos estudiados en este taller funcionan de manera educativa para aprender sobre complejidad algorítmica, pero no deberían ser usados en un proyecto real. En ese caso, se podría optar por otros como el TimSort o el HeapSort.
+\end{enumerate}
+
+\begin{thebibliography}{X}
+\bibitem{Ed} \textsc{Educative IO},
+\textit{What is the Python list sort()?}, https://www.educative.io/answers/what-is-the-python-list-sort
+
+\end{thebibliography}
+
+
 
 \end{document}
 
