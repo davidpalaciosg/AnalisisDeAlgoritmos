@@ -23,7 +23,7 @@ def IsSorted( S ):
 
 ## -------------------------------------------------------------------------
 def DoExperiment( S, f ):
-  r = 10
+  r = 5
   t = 0
   s = True
   for i in range( r ):
