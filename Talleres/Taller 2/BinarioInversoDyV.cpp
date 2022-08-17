@@ -60,6 +60,8 @@ int BinaryToDecimal(string S)
 int main()
 {
     int n=345;
+    cout<<"DIVIDE AND CONQUER"<<endl;
+    cout<<"Decimal: "<<n<<endl;
     string binary = DecimalToBinary(n);
     cout << "Binary: " << binary << endl;
     string inverted = InvertChain(binary,0,binary.size()-1);
