@@ -1,3 +1,4 @@
+from math import pow
 #Convert an integer number into binary list
 def DecimalToBinary(numero_decimal):
     binario = []
@@ -25,10 +26,14 @@ def InvertChain(S,l,r):
 
 #Convert a list of binary into an integer
 def BinaryToDecimal(numero_binario):
-	decimal = 0 
-	for posicion, digito_string in enumerate(numero_binario[::-1]):
-		decimal += int(digito_string) * 2 ** posicion
-	return decimal
+    decimal = 0
+    i=0
+    inverted = InvertChain(numero_binario,0,len(numero_binario)-1)
+    print("Inverted on binary", inverted)
+    for i in range(len(inverted)):
+        p = int(pow(int(inverted[i])*2,i))
+        decimal = decimal + p
+    return decimal
 
 n = 345
 print(n)
