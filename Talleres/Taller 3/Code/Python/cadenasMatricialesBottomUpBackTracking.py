@@ -8,6 +8,20 @@ def imprimirMatriz(A):
             print(A[i][j], end="\t")
         print()
         
+#Agregar parentesis con backtracking
+def agregarParentesis(B,i,j):
+    #Si está en la diagonal imprime Ai 
+    if i == j:
+        print("A"+str(i+1),end=" ")
+    else:
+        #Si no está en la diagonal significa que tiene operaciones pendientes
+        print("(", end=" ")
+        q = B[i][j]
+        agregarParentesis(B,i,q)
+        agregarParentesis(B,q+1,j)
+        print(")", end=" ")
+    
+
 def cadenasMatricialesAux(D):
     n = len(D) - 1
     M = [[0 for x in range(n)] for y in range(n)]
@@ -23,7 +37,7 @@ def cadenasMatricialesAux(D):
                 v = left + right + (D[i-1]*D[k]*D[j])
                 if v < q:
                     q = v
-                    m = k+1
+                    m = k
             M[i][j] = q
             B[i][j] = m
     
@@ -38,3 +52,5 @@ print("M: ")
 imprimirMatriz(M)
 print("B: ")
 imprimirMatriz(B)
+
+agregarParentesis(B,0,len(B)-1)
