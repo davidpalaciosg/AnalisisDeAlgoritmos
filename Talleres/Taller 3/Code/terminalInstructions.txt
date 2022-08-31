@@ -1,2 +1,1 @@
-Console-> import Pkg; Pkg.add("StatsBase")
 Shell-> julia cadenasMatricialesBacktracking.jl 100
