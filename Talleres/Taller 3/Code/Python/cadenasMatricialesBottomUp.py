@@ -1,7 +1,6 @@
 import math
 import pprint
 
-
 def imprimirMatriz(A):
     for i in range(len(A)):
         for j in range(len(A)):
@@ -23,18 +22,20 @@ def cadenasMatricialesAux(D):
                 v = left + right + (D[i-1]*D[k]*D[j])
                 if v < q:
                     q = v
-                    m = k+1
+                    m = k
             M[i][j] = q
             B[i][j] = m
     
     return M, B
 
-
-D = [10, 100, 5, 50]
+D = [10,100,5,50]
 
 # Crear M
 M, B = cadenasMatricialesAux(D)
+r= M[0 ][ len(D)-2 ]
 print("M: ")
 imprimirMatriz(M)
 print("B: ")
 imprimirMatriz(B)
+print(r)
+

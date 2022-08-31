@@ -21,7 +21,6 @@ def agregarParentesis(B,i,j):
         agregarParentesis(B,q+1,j)
         print(")", end=" ")
     
-
 def cadenasMatricialesAux(D):
     n = len(D) - 1
     M = [[0 for x in range(n)] for y in range(n)]
@@ -44,13 +43,13 @@ def cadenasMatricialesAux(D):
     return M, B
 
 
-D = [10, 100, 5, 50]
-
+D = [10,100,5,50]
 # Crear M
 M, B = cadenasMatricialesAux(D)
+r= M[0 ][ len(D)-2 ]
 print("M: ")
 imprimirMatriz(M)
 print("B: ")
 imprimirMatriz(B)
-
+print(r)
 agregarParentesis(B,0,len(B)-1)
