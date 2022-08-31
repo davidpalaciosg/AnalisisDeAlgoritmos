@@ -43,13 +43,17 @@ function cadenasMatriciales(D)
   return M, B
 end
 
+function imprimirCadenasMatriciales(D)
+  M, B = cadenasMatriciales(D)
+  r = M[1,length(D)-1]
+  println("M: ")
+  println(M)
+  println("B: ")
+  println(B)
+  println(r)
+  agregarParentesis(B,1,size(B)[1])
+  println()
+end
+
 D = [10, 100, 5, 50]
-M, B = cadenasMatriciales(D)
-r = M[1,length(D)-1]
-println("M: ")
-println(M)
-println("B: ")
-println(B)
-println(r)
-agregarParentesis(B,1,size(B)[1])
-println()
+imprimirCadenasMatriciales(D)
