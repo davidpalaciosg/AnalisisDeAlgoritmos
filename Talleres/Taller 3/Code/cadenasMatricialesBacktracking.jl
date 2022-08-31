@@ -4,12 +4,10 @@
 ## =========================================================================
 """
 Manual de uso:
-En RPL de Julia (Console) ejecutar-> import Pkg; Pkg.add("StatsBase")
-Ejecutar en el shell o cmd-> julia cadenasMatricialesBacktracking.jl NoMatrices
+Ejecutar en el shell o cmd-> julia cadenasMatricialesBacktracking.jl #Matrices
+Params:
+- #Matrices: número de matrices a generar
 """
-
-using StatsBase
-
 function agregarParentesis(B,i,j)
   #Si está en la diagonal imprime Ai 
   if i == j
@@ -72,6 +70,10 @@ end
 nM= parse(Int64, ARGS[1])
 println("Numero de matrices: ", nM)
 #D = [10, 100, 5, 50]
-D= sample(1:100, nM+1, replace = false)
+D=[]
+for i=1:nM+1
+  random = rand(1:100)
+  push!(D, random)
+end
 imprimirCadenasMatriciales(D)
 
