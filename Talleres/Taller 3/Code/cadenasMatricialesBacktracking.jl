@@ -1,3 +1,15 @@
+## =========================================================================
+## @author David Enrique Palacios-Garcia (david_palacios@javeriana.edu.co)
+## @author Karen Sofia Coral Godoy (corallg ksofia@javeriana.edu.co) 
+## =========================================================================
+"""
+Manual de uso:
+En RPL de Julia (Console) ejecutar-> import Pkg; Pkg.add("StatsBase")
+Ejecutar en el shell o cmd-> julia cadenasMatricialesBacktracking.jl NoMatrices
+"""
+
+using StatsBase
+
 function agregarParentesis(B,i,j)
   #Si está en la diagonal imprime Ai 
   if i == j
@@ -44,6 +56,8 @@ function cadenasMatriciales(D)
 end
 
 function imprimirCadenasMatriciales(D)
+  println("D: ")
+  println(D)
   M, B = cadenasMatriciales(D)
   r = M[1,length(D)-1]
   println("M: ")
@@ -55,5 +69,9 @@ function imprimirCadenasMatriciales(D)
   println()
 end
 
-D = [10, 100, 5, 50]
+nM= parse(Int64, ARGS[1])
+println("Numero de matrices: ", nM)
+#D = [10, 100, 5, 50]
+D= sample(1:100, nM+1, replace = false)
 imprimirCadenasMatriciales(D)
+
