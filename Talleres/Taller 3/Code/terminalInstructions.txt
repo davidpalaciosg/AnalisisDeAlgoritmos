@@ -1,1 +1,1 @@
-Shell-> julia cadenasMatricialesBacktracking.jl 100
+julia cadenasMatricialesBacktracking.jl 3 12 44 63 85 115 364 543 754 929 > experimentData.csv

@@ -4,9 +4,12 @@
 ## =========================================================================
 """
 Manual de uso:
-Ejecutar en el shell o cmd-> julia cadenasMatricialesBacktracking.jl #Matrices
+Ejecutar en el shell o cmd-> julia cadenasMatricialesBacktracking.jl #MatricesIter1 #MatricesIter2 #MatricesIter3 
+#MatricesIter4 #MatricesIter5 #MatricesIter6 #MatricesIter7 #MatricesIter8 #MatricesIter9 #MatricesIter10
+
 Params:
-- #Matrices: número de matrices a generar
+Debido a que el experimento consta de 10 iteraciones, el i va desde 1 hasta 10
+- #MatricesIter_i: número de matrices a multiplicar en la Iteracion i
 """
 function agregarParentesis(B,i,j)
   #Si está en la diagonal imprime Ai 
@@ -53,27 +56,33 @@ function cadenasMatriciales(D)
   return M, B
 end
 
-function imprimirCadenasMatriciales(D)
-  println("D: ")
-  println(D)
-  M, B = cadenasMatriciales(D)
-  r = M[1,length(D)-1]
-  println("M: ")
-  println(M)
-  println("B: ")
-  println(B)
-  println(r)
-  agregarParentesis(B,1,size(B)[1])
-  println()
+function imprimirCadenasMatriciales(muestra)
+  for i=1:10
+    println("Iteracion: ", i)
+    println("Numero de matrices: ", muestra[i])
+    D=[]
+    for i=1:muestra[i]+1
+      random = rand(1:100)
+      push!(D, random)
+    end
+    println("D: ")
+    println(D)
+    M, B = cadenasMatriciales(D)
+    r = M[1,length(D)-1]
+    println("M: ")
+    println(M)
+    println("B: ")
+    println(B)
+    println("Multiplicaciones optimas: ", r)
+    agregarParentesis(B,1,size(B)[1])
+    println()
+    println("-----------------------")
+  end
 end
 
-nM= parse(Int64, ARGS[1])
-println("Numero de matrices: ", nM)
-#D = [10, 100, 5, 50]
-D=[]
-for i=1:nM+1
-  random = rand(1:100)
-  push!(D, random)
+muestra=[]
+for i=1:10
+  push!(muestra, parse(Int64, ARGS[i]))
 end
-imprimirCadenasMatriciales(D)
+imprimirCadenasMatriciales(muestra)
 
