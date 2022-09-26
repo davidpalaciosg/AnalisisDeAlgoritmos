@@ -7,7 +7,7 @@ def secuenciaCrecienteEnMatrizCuadradaMem(A, i,j, M):
     if M[i][j]!=0:
         return M[i][j] 
      
-    q = 1
+    q = 0
     #Fila superior
     if i>0:
         if A[i][j]+1 == A[i-1][j]:
@@ -57,6 +57,7 @@ for i in range(len(A)):
             q = result
             
 print(q)
+printMatrix(M)
 
 
 
