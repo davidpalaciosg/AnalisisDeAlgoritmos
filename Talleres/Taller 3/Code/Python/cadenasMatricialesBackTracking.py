@@ -12,14 +12,13 @@ def imprimirMatriz(A):
 def agregarParentesis(B,i,j):
     #Si está en la diagonal imprime Ai 
     if i == j:
-        print("A"+str(i+1),end=" ")
+        return "A"+str(i+1)
     else:
         #Si no está en la diagonal significa que tiene operaciones pendientes
-        print("(", end=" ")
         q = B[i][j]
-        agregarParentesis(B,i,q)
-        agregarParentesis(B,q+1,j)
-        print(")", end=" ")
+        left = agregarParentesis(B,i,q)
+        right = agregarParentesis(B,q+1,j)
+        return "( "+left+" "+right+" )"
     
 def cadenasMatricialesAux(D):
     n = len(D) - 1
@@ -43,7 +42,7 @@ def cadenasMatricialesAux(D):
     return M, B
 
 
-D = [10,100,5,50]
+D = [10,100,5,50,250,15]
 # Crear M
 M, B = cadenasMatricialesAux(D)
 r= M[0 ][ len(D)-2 ]
@@ -52,4 +51,4 @@ imprimirMatriz(M)
 print("B: ")
 imprimirMatriz(B)
 print(r)
-agregarParentesis(B,0,len(B)-1)
+print(agregarParentesis(B,0,len(B)-1))
