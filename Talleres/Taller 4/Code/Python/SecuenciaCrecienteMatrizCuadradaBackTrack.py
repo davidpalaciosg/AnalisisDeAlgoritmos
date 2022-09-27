@@ -8,7 +8,7 @@ def secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j, M, B):
     if i < 0 or i >= len(A) or j < 0 or j >= len(A):
         return 0
 
-    if M[i][j] != -1:
+    if M[i][j] != 0:
         return M[i][j]
 
     q = 1
@@ -43,15 +43,9 @@ def secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j, M, B):
     M[i][j] = q
     return M[i][j]
 
-
-A = [[10, 16, 15, 12],
-     [9, 8, 7, 13],
-     [2, 5, 6, 14],
-     [3, 4, 1, 11]]
-
 def secuenciaCrecienteEnMatriz(A):
     #Crear tabla de memoizacion y backtracking
-    M = [[-1 for i in range(len(A))] for j in range(len(A))]
+    M = [[0 for i in range(len(A))] for j in range(len(A))]
     B = [[(0, 0) for i in range(len(A))] for j in range(len(A))]
     q = 1
     # Casos base
@@ -59,24 +53,29 @@ def secuenciaCrecienteEnMatriz(A):
         for j in range(len(A)):
             B[i][j] = (i, j)
 
-    max_pos = (0, 0)
+    pos_actual = (0, 0)
     for i in range(len(A)):
         for j in range(len(A)):
             q = max(q, secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j, M, B))
             #Obtener la posicion de la secuencia mas larga
             if q == M[i][j]:
-                max_pos = (i, j)
+                pos_actual = (i, j)
 
     #Backtracking
     resultado = []
-    #Mientras no llegue a la posicion inicial
-    while max_pos != B[max_pos[0]][max_pos[1]]:
-        resultado.append(A[max_pos[0]][max_pos[1]])
-        max_pos = B[max_pos[0]][max_pos[1]]
+    #Mientras no llegue a la posición inicial
+    while pos_actual != B[pos_actual[0]][pos_actual[1]]:
+        resultado.append(A[pos_actual[0]][pos_actual[1]])
+        pos_actual = B[pos_actual[0]][pos_actual[1]]
         
-    #Agregar el ultimo elemento
-    resultado.append(A[max_pos[0]][max_pos[1]])
+    #Agregar la posición inicial
+    resultado.append(A[pos_actual[0]][pos_actual[1]])
     
     return resultado
+
+A = [[10, 16, 15, 12],
+     [9, 8, 7, 13],
+     [2, 5, 6, 14],
+     [3, 4, 1, 11]]
 
 print(secuenciaCrecienteEnMatriz(A))
