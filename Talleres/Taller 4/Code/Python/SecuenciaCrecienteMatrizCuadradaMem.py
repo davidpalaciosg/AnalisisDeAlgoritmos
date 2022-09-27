@@ -4,27 +4,33 @@ def printMatrix(matrix):
     print()
 
 def secuenciaCrecienteEnMatrizCuadradaMem(A, i,j, M):
-    if M[i][j]!=0:
+    if i<0 or i>=len(A) or j<0 or j>=len(A):
+        return 0
+    
+    if M[i][j]!=-1:
         return M[i][j] 
-     
+    
     q = 1
+    sup, inf, izq, der = 0,0,0,0
     #Fila superior
     if i>0:
         if A[i][j]+1 == A[i-1][j]:
-            q = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i-1, j, M)
+            sup = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i-1, j, M)
             
     #Fila inferior
     if i<len(A)-1:
         if A[i][j]+1 == A[i+1][j]:
-            q = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i+1, j, M)
+            inf = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i+1, j, M)
     #Columna izquierda
     if j>0:
         if A[i][j]+1 == A[i][j-1]:
-            q = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i, j-1, M)
+            izq = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i, j-1, M)
     #Columna derecha
     if j<len(A)-1:
         if A[i][j]+1 == A[i][j+1]:
-            q = 1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i, j+1, M)
+            der =  1 + secuenciaCrecienteEnMatrizCuadradaMem(A, i, j+1, M)
+    
+    q = max(sup, inf, izq, der)
     M[i][j] = q
     return M[i][j]
      
@@ -35,14 +41,14 @@ A = [[10, 16, 15, 12],
      [3, 4, 1, 11]]
 
 q= -9999999
-M = [[0 for i in range(len(A))] for j in range(len(A))]
+M = [[-1 for i in range(len(A))] for j in range(len(A))]
 
 for i in range(len(A)):
     for j in range(len(A)):
-        result = secuenciaCrecienteEnMatrizCuadradaMem(A, i, j, M)
-        if result > q:
-            q = result
-            
+        if M[i][j]==-1:
+            secuenciaCrecienteEnMatrizCuadradaMem(A, i, j, M)
+        q = max(q, M[i][j])
+                    
 print(q)
 printMatrix(M)
 
