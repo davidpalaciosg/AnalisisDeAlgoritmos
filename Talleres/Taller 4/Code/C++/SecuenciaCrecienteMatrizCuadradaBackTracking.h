@@ -6,7 +6,7 @@
 using namespace std;
 
 //Busca la mayor longitud de secuencias crecientes en una matriz cuadrada
-unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
+unsigned int secuenciaCrecienteAux(
     vector<vector<unsigned int>>A,
     unsigned int i,
     unsigned int j,

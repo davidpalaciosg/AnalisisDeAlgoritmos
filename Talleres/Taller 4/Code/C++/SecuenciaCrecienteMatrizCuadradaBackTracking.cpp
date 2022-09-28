@@ -7,7 +7,7 @@
 */
 #include "SecuenciaCrecienteMatrizCuadradaBackTracking.h"
 
-unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
+unsigned int secuenciaCrecienteAux(
     vector<vector<unsigned int>>A,
     unsigned int i,
     unsigned int j,
@@ -29,7 +29,7 @@ unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
     {
         if(A[i][j]+1 == A[i-1][j])
         {
-            sup = 1 + secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i-1, j, M, B);
+            sup = 1 + secuenciaCrecienteAux(A, i-1, j, M, B);
             B[i][j] = make_pair(i-1, j);
         } 
     }
@@ -39,7 +39,7 @@ unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
     {
         if(A[i][j]+1 == A[i+1][j])
         {
-            inf = 1 + secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i+1, j, M, B);
+            inf = 1 + secuenciaCrecienteAux(A, i+1, j, M, B);
             B[i][j] = make_pair(i+1, j);
         } 
     }
@@ -49,7 +49,7 @@ unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
     {
         if(A[i][j]+1 == A[i][j-1])
         {
-            izq = 1 + secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j-1, M, B);
+            izq = 1 + secuenciaCrecienteAux(A, i, j-1, M, B);
             B[i][j] = make_pair(i, j-1);
         } 
     }
@@ -59,7 +59,7 @@ unsigned int secuenciaCrecienteEnMatrizCuadradaBacktrack(
     {
         if(A[i][j]+1 == A[i][j+1])
         {
-            der = 1 + secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j+1, M, B);
+            der = 1 + secuenciaCrecienteAux(A, i, j+1, M, B);
             B[i][j] = make_pair(i, j+1);
         } 
     }
@@ -89,7 +89,7 @@ vector<unsigned int> secuenciaCrecienteEnMatriz(vector<vector<unsigned int>>A)
     {
         for(unsigned int j=0; j<A.size(); j++)
         {
-            q = max(q, secuenciaCrecienteEnMatrizCuadradaBacktrack(A, i, j, M, B));
+            q = max(q, secuenciaCrecienteAux(A, i, j, M, B));
             //Obtener la posición de la secuencia más larga
             if (q == M[i][j])
                 pos_actual = make_pair(i, j);
