@@ -7,19 +7,20 @@
 
     Manual de uso en terminal:
     1. Compilar y encadenar:
-        g++ -o main *.cpp
+        g++ *.cpp -o main
     2. Ejecutar:
-        ./main <n>
-        - <n> es el tamaño de la matriz cuadrada
+        main <n>
+        donde <n> es el tamaño de la matriz cuadrada
 */
 
 #include "SecuenciaCrecienteMatrizCuadradaBackTracking.h"
 #include <time.h>
+#include <chrono>
 vector<vector<unsigned int>> crearMatrizAleatoria(unsigned int n)
 {
     vector<vector<unsigned int>> A(n, vector<unsigned int>(n));
     int v = 1;
-    //Crear la matriz con valores de 1 a n*n
+    // Crear la matriz con valores de 1 a n*n
     for (unsigned int i = 0; i < n; i++)
     {
         for (unsigned int j = 0; j < n; j++)
@@ -28,7 +29,7 @@ vector<vector<unsigned int>> crearMatrizAleatoria(unsigned int n)
             v++;
         }
     }
-    //Mezclar la matriz
+    // Mezclar la matriz
     for (unsigned int i = 0; i < n; i++)
     {
         for (unsigned int j = 0; j < n; j++)
@@ -40,13 +41,12 @@ vector<vector<unsigned int>> crearMatrizAleatoria(unsigned int n)
             A[i2][j2] = aux;
         }
     }
-
     return A;
 }
 
 void printMatriz(vector<vector<unsigned int>> A)
 {
-    cout<<"MATRIZ A: "<<endl;
+    cout << "MATRIZ A: " << endl;
     for (unsigned int i = 0; i < A.size(); i++)
     {
         for (unsigned int j = 0; j < A.size(); j++)
@@ -65,17 +65,30 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
+    int r = 10;
+    auto timemicro = 0;
     unsigned int n = atoi(argv[1]);
     srand(time(NULL));
-    vector<vector<unsigned int>> A = crearMatrizAleatoria(n);
-    printMatriz(A);
 
-    cout<<"Secuencia creciente de mayor longitud: "<<endl;
-    vector<unsigned int> secuencia = secuenciaCrecienteEnMatriz(A);
-    for (unsigned int i = 0; i < secuencia.size(); i++)
+    for (int i = 0; i < r; i++)
     {
-        cout << secuencia[i] << " ";
+        vector<vector<unsigned int>> A = crearMatrizAleatoria(n);
+        auto start = chrono::steady_clock::now();
+        vector<unsigned int> secuencia = secuenciaCrecienteEnMatriz(A);
+        auto end = chrono::steady_clock::now();
+        timemicro += chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+        if (i == 9)
+        {
+            printMatriz(A);
+            cout << "Secuencia creciente de mayor longitud: " << endl;
+            for (unsigned int i = 0; i < secuencia.size(); i++)
+            {
+                cout << secuencia[i] << " ";
+            }
+            cout << endl;
+            cout << "Execution Time (Microseconds): " << (timemicro / double(r)) << endl;
+        }
     }
-    cout << endl;
     return 0;
 }

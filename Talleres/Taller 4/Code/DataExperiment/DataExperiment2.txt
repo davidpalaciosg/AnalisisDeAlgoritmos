@@ -1,0 +1,6 @@
+MATRIZ A: 
+4 3 
+1 2 
+Secuencia creciente de mayor longitud: 
+1 2 3 4 
+Execution Time (Microseconds): 10.1

@@ -1,0 +1,5 @@
+1. Compilar y encadenar:
+        g++ *.cpp -o main 
+2. Ejecutar:
+        main <n>
+        donde <n> es el tamaño de la matriz cuadrada
