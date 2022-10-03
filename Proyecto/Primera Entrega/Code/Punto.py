@@ -2,15 +2,16 @@
 Clase Punto:
     - Atributos:
         - color (char): Color del punto
-        - inicial (bool): Indica si el punto es el inicial
+        - original (bool): Indica si el punto es el original
         - coordenadas (tuple(int, int)): Coordenadas del punto
 '''
 class Punto:
     #Constructor
-    def __init__(self, color, inicial, coordenadas):
+    def __init__(self, color, original, coordenadas):
         self.color = color
-        self.inicial = inicial
+        self.original = original
         self.coordenadas = coordenadas
+        self.ultimo=False
     
     def __str__(self)-> str:
         return self.color
@@ -18,8 +19,8 @@ class Punto:
     def getColor(self) -> str:
         return self.color
     
-    def getInicial(self) -> bool:
-        return self.inicial
+    def getOriginal(self) -> bool:
+        return self.original
     
     def getCoordenadas(self) -> tuple:
         return self.coordenadas
@@ -27,9 +28,14 @@ class Punto:
     def setColor(self, color: str):
         self.color = color
         
-    def setInicial(self, inicial: bool):
-        self.inicial = inicial
+    def setOriginal(self, original: bool):
+        self.original = original
         
     def setCoordenadas(self, coordenadas: tuple):
         self.coordenadas = coordenadas
+    def getUltimo(self):
+        return self.ultimo
+    
+    def setUltimo(self,ultimo):
+        self.ultimo=ultimo
     
