@@ -2,3 +2,4 @@ Tarea*
 build
 *.exe
 .vscode
+__pycache__
