@@ -92,6 +92,7 @@ class Tablero:
         #Crear coordenadas iniciales
         coordenadas = []
         terminar = False
+        i = 0
         while not terminar:
             #Generar coordenadas
             f = randint(0, numPuntos)
@@ -99,7 +100,16 @@ class Tablero:
                         
             #Validar que no se repitan
             if (f,c) not in coordenadas:
-                coordenadas.append((f,c))
+                if len(coordenadas)>0:
+                    anterior = coordenadas[i-1]
+                    fAnt, cAnt = anterior
+                    #Verificar que no sean contiguas
+                    if not( (fAnt,cAnt) == (f+1, c) or (fAnt,cAnt) == (f, c+1) or (fAnt,cAnt) == (f-1, c) or (fAnt,cAnt) == (f, c-1)):
+                        coordenadas.append((f,c))
+                        i+=1
+                else:
+                    i+=1
+                    coordenadas.append((f,c))
                                    
             #Validar que se hayan generado los puntos iniciales
             if len(coordenadas) == numPuntos*2:
@@ -126,6 +136,9 @@ class Tablero:
             
             #Siguiente color
             color+=1
+            
+            #Actualizar caminos
+            self.caminos[color].puntos.append(p1)
         
         return matriz
 
