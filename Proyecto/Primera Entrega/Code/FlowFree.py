@@ -34,37 +34,69 @@ def Bienvenida():
 
 
 def menu()->int:
+    
     print("Opciones:")
     print("1. Realizar movimiento")
     print("2. Deshacer movimiento")
-    print("3. Salir")
+    print("3. Ver puntos originales")
+    print("4. Salir")
     opcion = int(input("Ingrese una opcion: "))
     return opcion
 
+
 def realizarMovimiento_Int(dimension:int, tablero:Tablero)->bool:
-    #Obtener las coordenadas del punto inicial
-    f1 = int(input("Ingrese la fila del punto inicial: "))
-    c1 = int(input("Ingrese la columna del punto inicial: "))
-    if f1 < 0 or c1 < 0 or f1 >= dimension or c1 >= dimension:
-        print("ERROR: Coordenadas de punto inicial no válidas")
-        return False
-    
-    # Obtener las coordenadas del punto final
-    f2 = int(input("Ingrese la fila del punto final: "))
-    c2 = int(input("Ingrese la columna del punto final: "))
-    if f2 < 0 or c2 < 0 or f2 >= dimension or c2 >= dimension:
-        print("ERROR: Coordenadas de punto final no válidas")
-        return False
-    
+    try:
+        #Obtener las coordenadas del punto inicial
+        f1 = int(input("Ingrese la fila del punto inicial: "))
+        c1 = int(input("Ingrese la columna del punto inicial: "))
+        if f1 < 0 or c1 < 0 or f1 >= dimension or c1 >= dimension:
+            print("ERROR: Coordenadas de punto inicial no válidas")
+            return False
+        
+        # Obtener las coordenadas del punto final
+        f2 = int(input("Ingrese la fila del punto final: "))
+        c2 = int(input("Ingrese la columna del punto final: "))
+        if f2 < 0 or c2 < 0 or f2 >= dimension or c2 >= dimension:
+            print("ERROR: Coordenadas de punto final no válidas")
+            return False
+    except:
+        print("ERROR: Coordenadas no válidas")
+        
     puntoInicial = tablero.getPunto(f1, c1)
     puntoFinal = tablero.getPunto(f2, c2)
     
     if tablero.realizarMovimiento(puntoInicial, puntoFinal):
         print("Movimiento realizado exitosamente")
-        print(tablero.caminos)
         return True
     
     return False
+
+def deshacerMovimiento_Int(dimension:int, tablero:Tablero)->bool:
+    try:
+        #Obtener las coordenadas del punto inicial
+        f1 = int(input("Ingrese la fila del punto inicial a remover: "))
+        c1 = int(input("Ingrese la columna del punto inicial a remover: "))
+        if f1 < 0 or c1 < 0 or f1 >= dimension or c1 >= dimension:
+            print("ERROR: Coordenadas de punto inicial no válidas")
+            return False
+        
+        # Obtener las coordenadas del punto final
+        f2 = int(input("Ingrese la fila del punto final a remover: "))
+        c2 = int(input("Ingrese la columna del punto final a remover: "))
+        if f2 < 0 or c2 < 0 or f2 >= dimension or c2 >= dimension:
+            print("ERROR: Coordenadas de punto final no válidas")
+            return False
+    except:
+        print("ERROR: Coordenadas no válidas")
+        
+    puntoInicial = tablero.getPunto(f1, c1)
+    puntoFinal = tablero.getPunto(f2, c2)
+    if tablero.deshacerMovimiento(puntoInicial, puntoFinal):
+        print("Movimiento deshecho exitosamente")
+        return True
+    
+    return False
+    
     
     
 
@@ -86,15 +118,19 @@ def main():
     while not tablero.verificarVictoria():
         #Seleccionar una opcion
         opcion = 0
-        while opcion != 3:
+        while opcion != 4:
             #limpiarConsola()
             tablero.imprimirTablero()
             opcion = menu() 
             if opcion == 1:
                 #Realizar movimiento
                 realizarMovimiento_Int(dimension,tablero)
+            elif opcion == 2:
+                #Deshacer movimiento
+                deshacerMovimiento_Int(dimension,tablero)
             elif opcion==3:
-                print("Gracias por jugar")
+                #Imprimir puntos originales
+                tablero.imprimirPuntosOriginales()
             else:
                 print("ERROR: Opcion no valida")
 

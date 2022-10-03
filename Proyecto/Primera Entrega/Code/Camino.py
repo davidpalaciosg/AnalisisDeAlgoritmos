@@ -16,3 +16,5 @@ class Camino:
         cadena = cadena[:-2]
         cadena += "]"
         return cadena
+    def print(self):
+        print(self.__str__())
