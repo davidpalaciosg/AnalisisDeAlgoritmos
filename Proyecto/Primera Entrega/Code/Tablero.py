@@ -19,7 +19,6 @@ Clase Tablero:
         - getCamino(self, color)
         - verificarVictoria(self)
 '''
-from sympy import prime
 from Camino import Camino
 from Punto import Punto
 from random import randint
