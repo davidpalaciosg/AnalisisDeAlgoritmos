@@ -6,6 +6,8 @@ Clase Tablero:
         - cantMovimientos (int): Cantidad de movimientos realizados
         - porcentaje (float): Porcentaje de llenado del tablero
         - matriz (list(list(Punto))): Matriz de puntos
+        - colores (list(str)): Lista de colores que se pueden utilizar en el tablero
+        - caminosActivos (list(bool)): Lista de caminos activos en el tablero por color
         - caminos (list(Camino)): Lista de caminos
         
     - Métodos:
@@ -14,10 +16,13 @@ Clase Tablero:
         - crearMatriz(self, numPuntos, dimension)
         - validarMovimiento(self, PuntoInicial, PuntoFinal)
         - realizarMovimiento(self, PuntoInicial, PuntoFinal)
+        - validarDeshacerMovimiento(self, PuntoInicial, PuntoFinal):
+        - deshacerMovimiento(self, PuntoInicial, PuntoFinal)
         - calcularPorcentaje(self)
-        - getPunto(self, fila, columna)
-        - getCamino(self, color)
         - verificarVictoria(self)
+        - getPunto(self, fila, columna)
+        - imprimirPuntosOriginales(self)
+        - reiniciarTablero(self)
 '''
 from Camino import Camino
 from Punto import Punto
@@ -475,4 +480,6 @@ class Tablero:
                 if not (punto.getOriginal):
                     punto.setColor(" ")
                     punto.setUltimo(False)
+        self.cantMovimientos = 0
+        self.porcentaje = self.calcularPorcentaje()
                 

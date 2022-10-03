@@ -16,10 +16,12 @@ import os
 from matplotlib.pyplot import table
 from Punto import Punto
 from Tablero import Tablero
-        
+
+# Limpia la consola
 def limpiarConsola():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+#Funcion que imprime la bienvenida
 def Bienvenida():
     print("Primer Proyecto: Analisis de algoritmos")
     print("Profesor: Leonardo Florez Valencia")
@@ -32,9 +34,8 @@ def Bienvenida():
     print(" 8. 8x8 ->                  7 puntos" )
     print(" 9. 9x9 ->                  8 puntos" )
 
-
+#Funcion que imprime el menu de opciones
 def menu()->int:
-    
     print("Opciones:")
     print("1. Realizar movimiento")
     print("2. Deshacer movimiento")
@@ -43,7 +44,7 @@ def menu()->int:
     opcion = int(input("Ingrese una opcion: "))
     return opcion
 
-
+#Interfaz para realizar movimiento
 def realizarMovimiento_Int(dimension:int, tablero:Tablero)->bool:
     try:
         #Obtener las coordenadas del punto inicial
@@ -71,6 +72,7 @@ def realizarMovimiento_Int(dimension:int, tablero:Tablero)->bool:
     
     return False
 
+# Interfaz para deshacer movimiento
 def deshacerMovimiento_Int(dimension:int, tablero:Tablero)->bool:
     try:
         #Obtener las coordenadas del punto inicial
@@ -97,14 +99,11 @@ def deshacerMovimiento_Int(dimension:int, tablero:Tablero)->bool:
     
     return False
     
-    
-    
-
+# Función principal del programa
 def main():
     Bienvenida()
     #Obtener la dimension del tablero
     dimension = 0
-    
     while dimension < 5 or dimension > 9:
         dimension = int(input("Ingrese la dimension del tablero: "))
         if dimension < 5 or dimension > 9:
@@ -134,4 +133,5 @@ def main():
             else:
                 print("ERROR: Opcion no valida")
 
+# Llamadp a la función principal
 main()

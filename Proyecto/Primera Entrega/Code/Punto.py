@@ -4,6 +4,7 @@ Clase Punto:
         - color (char): Color del punto
         - original (bool): Indica si el punto es el original
         - coordenadas (tuple(int, int)): Coordenadas del punto
+        - ultimo (bool): Indica si el punto es el ultimo marcado en el tablero
 '''
 class Punto:
     #Constructor
