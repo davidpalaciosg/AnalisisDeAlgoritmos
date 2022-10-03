@@ -61,6 +61,7 @@ def realizarMovimiento_Int(dimension:int, tablero:Tablero)->bool:
     
     if tablero.realizarMovimiento(puntoInicial, puntoFinal):
         print("Movimiento realizado exitosamente")
+        print(tablero.caminos)
         return True
     
     return False
@@ -81,8 +82,8 @@ def main():
     numPuntos = dimension - 1
     tablero = Tablero(dimension)
     
-    # Mientras no se llene el tablero
-    while tablero.porcentaje!=100:
+    # Mientras no se gane
+    while not tablero.verificarVictoria():
         #Seleccionar una opcion
         opcion = 0
         while opcion != 3:

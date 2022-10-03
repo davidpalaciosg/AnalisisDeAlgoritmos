@@ -6,6 +6,7 @@ Clase Tablero:
         - cantMovimientos (int): Cantidad de movimientos realizados
         - porcentaje (float): Porcentaje de llenado del tablero
         - matriz (list(list(Punto))): Matriz de puntos
+        - caminos (list(Camino)): Lista de caminos
         
     - Métodos:
         - __init__(self, dimension)
@@ -14,7 +15,12 @@ Clase Tablero:
         - validarMovimiento(self, PuntoInicial, PuntoFinal)
         - realizarMovimiento(self, PuntoInicial, PuntoFinal)
         - calcularPorcentaje(self)
+        - getPunto(self, fila, columna)
+        - getCamino(self, color)
+        - verificarVictoria(self)
 '''
+from sympy import prime
+from Camino import Camino
 from Punto import Punto
 from random import randint
 
@@ -30,14 +36,15 @@ Colores:
     G = Gris,
     T = Turquesa
 '''
-
-
-
 class Tablero:
     #Constructor
     def __init__(self, dimension: int):
         self.colores = ["R","V","A","N","M","C","B","G","T"]
         self.caminosActivos =[False for x in range(len(self.colores))]
+        self.caminos = []
+        #Crear los caminos iniciales
+        for color in self.colores:
+            self.caminos.append(Camino(color))
         
         self.dimension = dimension
         self.numPuntos = dimension - 1
@@ -155,37 +162,39 @@ class Tablero:
         #Verificar que no haya puntos entre los dos
         #Si está en la misma fila (HORIZONTAL)
         if PuntoInicial.getCoordenadas()[0] == PuntoFinal.getCoordenadas()[0]:
-            #Hacia la derecha
+            #Hacia la derecha (Filas derecha)
             if coordInicial[1] < coordFinal[1]:
                 for c in range(coordInicial[1]+1, coordFinal[1]+1):
                     if self.matriz[coordInicial[0]][c].getColor() != " ":
                         print("ERROR: Hay puntos entre los dos")
                         return "N"
-            #Hacia la izquierda
+                return "FD"
+            #Hacia la izquierda (Filas izquierda)
             else:
                 for c in range(coordInicial[1]-1, coordFinal[1]-1, -1):
                     if self.matriz[coordInicial[0]][c].getColor() != " ":
                         print("ERROR: Hay puntos entre los dos")
                         return "N"
-                    
-            return "F"
+                return "FI"
         
         #Si está en la misma columna (VERTICAL)
         if PuntoInicial.getCoordenadas()[1] == PuntoFinal.getCoordenadas()[1]:
-            #Hacia abajo
+            #Hacia abajo (Columnas inferior)
             if coordInicial[0] < coordFinal[0]:
                 for f in range(coordInicial[0]+1, coordFinal[0]+1):
                     if self.matriz[f][coordInicial[1]].getColor() != " ":
                         print("ERROR: Hay puntos entre los dos")
                         return "N"
-            #Hacia arriba
+                return "CI"
+            #Hacia arriba (Columnas superior)
             else:
                 for f in range(coordInicial[0]-1, coordFinal[0]-1, -1):
                     if self.matriz[f][coordInicial[1]].getColor() != " ": 
                         print("ERROR: Hay puntos entre los dos")
                         return "N"
-                    
-            return "C"
+                return "CS"
+            
+        return "N"
     
     def realizarMovimiento(self, PuntoInicial: Punto, PuntoFinal: Punto)->bool:
         
@@ -203,28 +212,40 @@ class Tablero:
         coordInicial = PuntoInicial.getCoordenadas()
         coordFinal = PuntoFinal.getCoordenadas()
         
-        if tipoMov == "F":
-            #Actualizar la fila
-            #Hacia la derecha
-            if coordInicial[1] < coordFinal[1]:
-                for c in range(coordInicial[1], coordFinal[1]+1):
-                    self.matriz[coordInicial[0]][c].setColor(PuntoInicial.getColor())
-            #Hacia la izquierda
-            else:
-                for c in range(coordInicial[1], coordFinal[1]-1, -1):
-                    print("Se agrega en:", coordInicial[0], c)
-                    self.matriz[coordInicial[0]][c].setColor(PuntoInicial.getColor())
-                    
-        elif tipoMov == "C":
-            #Actualizar la columna
-            #Hacia abajo
-            if coordInicial[0] < coordFinal[0]:
-                for f in range(coordInicial[0], coordFinal[0]+1):
-                    self.matriz[f][coordInicial[1]].setColor(PuntoInicial.getColor())
-            #Hacia arriba
-            else:
-                for f in range(coordInicial[0], coordFinal[0]-1, -1):
-                    self.matriz[f][coordInicial[1]].setColor(PuntoInicial.getColor())
+        #Crear Camino
+        camino = Camino(PuntoInicial.getColor())
+        camino.puntos.append(PuntoInicial)
+        
+        #Hacia la derecha
+        if tipoMov == "FD":
+            for c in range(coordInicial[1]+1, coordFinal[1]+1):
+                self.matriz[coordInicial[0]][c].setColor(PuntoInicial.getColor())
+                camino.puntos.append(self.matriz[coordInicial[0]][c])
+        
+        #Hacia la izquierda
+        elif tipoMov == "FI":
+            for c in range(coordInicial[1], coordFinal[1]-1, -1):
+                self.matriz[coordInicial[0]][c].setColor(PuntoInicial.getColor())
+                camino.puntos.append(self.matriz[coordInicial[0]][c])
+                
+        #Hacia abajo       
+        elif tipoMov == "CI":
+            for f in range(coordInicial[0], coordFinal[0]+1):
+                self.matriz[f][coordInicial[1]].setColor(PuntoInicial.getColor())
+                camino.puntos.append(self.matriz[f][coordInicial[1]])
+                
+        #Hacia arriba
+        elif tipoMov == "CS":         
+            for f in range(coordInicial[0], coordFinal[0]-1, -1):
+                self.matriz[f][coordInicial[1]].setColor(PuntoInicial.getColor())
+                camino.puntos.append(self.matriz[f][coordInicial[1]])
+        
+        #Finalizar camino
+        camino.puntos.append(PuntoFinal)
+        #Actualizar caminos
+        indexColor = self.colores.index(PuntoInicial.getColor())
+        self.caminos[indexColor] = camino
+        
         #Actualizar el porcentaje
         self.porcentaje = self.calcularPorcentaje()
         
@@ -235,8 +256,135 @@ class Tablero:
         PuntoInicial.setUltimo(False)
         PuntoFinal.setUltimo(True)
         
+        
         return True  
  
+    def validarDeshacerMovimiento(self, PuntoInicial: Punto, PuntoFinal: Punto)->str:
+        
+        #Si los puntos son iguales, no se puede deshacer el movimiento
+        if PuntoFinal.getCoordenadas() == PuntoInicial.getCoordenadas():
+            print("ERROR: El punto final es el mismo que el inicial")
+            return "N"
+        
+        if PuntoInicial.getColor() == " ":
+            print("ERROR: El punto inicial está vacío")
+            return "N"
+        
+        if PuntoFinal.getColor() == " ":
+            print("ERROR: El punto final está vacío")
+            return "N"
+        
+        if PuntoFinal.getColor() != PuntoInicial.getColor():
+            print("ERROR: Los puntos DEBEN ser del mismo color")
+            return "N"
+        
+        if not PuntoInicial.getUltimo():
+            print("ERROR: El punto inicial DEBE SER el ultimo por donde se continuo el camino")
+            return "N"
+        
+        if PuntoFinal.getOriginal():
+            print("ERROR: El punto final no puede ser un punto original")
+            return "N"
+        
+        #Validar camino entre los dos puntos
+        coordInicial = PuntoInicial.getCoordenadas()
+        coordFinal = PuntoFinal.getCoordenadas()
+        
+        #Si está en la misma fila (HORIZONTAL)
+        if coordInicial[0] == coordFinal()[0]:
+            #Hacia la derecha (Filas derecha)
+            if coordInicial[1] < coordFinal[1]:
+                for c in range(coordInicial[1]+1, coordFinal[1]+1):
+                    if self.matriz[coordInicial[0]][c].getColor() != PuntoInicial.getColor():
+                        print("ERROR: Camino no valido")
+                        return "N"                        
+                return "FD"
+            #Hacia la izquierda (Filas izquierda)
+            else:
+                for c in range(coordInicial[1]-1, coordFinal[1]-1, -1):
+                    if self.matriz[coordInicial[0]][c].getColor() != PuntoInicial.getColor():
+                        print("ERROR: Camino no valido")
+                        return "N"
+                return "FI"
+        #Si está en la misma columna (VERTICAL)
+        if coordInicial[1] == coordFinal[1]:
+            #Hacia abajo (Columna abajo)
+            if coordInicial[0] < coordFinal[0]:
+                for f in range(coordInicial[0]+1, coordFinal[0]+1):
+                    if self.matriz[f][coordInicial[1]].getColor() != PuntoInicial.getColor():
+                        print("ERROR: Camino no valido")
+                        return "N"
+                return "CI"
+            #Hacia arriba (Columna arriba)
+            else:
+                for f in range(coordInicial[0]-1, coordFinal[0]-1, -1):
+                    if self.matriz[f][coordInicial[1]].getColor() != PuntoInicial.getColor():
+                        print("ERROR: Camino no valido")
+                        return "N"
+                return "CS"
+        return "N"
+    
+    def deshacerMovimiento(self, PuntoInicial:Punto, PuntoFinal: Punto)->bool:
+        #Validar si se puede deshacer el movimiento
+        tipoMovDeshacer = self.validarDeshacerMovimiento(PuntoInicial, PuntoFinal)
+        if tipoMovDeshacer == "N":
+            return False
+        
+        #Si el punto inicial es de los originales, se desactiva el camino
+        indiceColor = self.colores.index(PuntoInicial.getColor())
+        if PuntoInicial.getOriginal():
+            self.caminosActivos[indiceColor] = False
+            
+        #Actualizar el tablero
+        coordInicial = PuntoInicial.getCoordenadas()
+        coordFinal = PuntoFinal.getCoordenadas()
+        
+        #Obtener Camino
+        camino = self.caminos[indiceColor]
+        camino.puntos.pop()
+        
+        #Hacia la derecha
+        if tipoMovDeshacer == "FD":
+            for c in range(coordInicial[1]+1, coordFinal[1]+1):
+                self.matriz[coordInicial[0]][c].setColor(" ")
+                camino.puntos.pop()
+        
+        #Hacia la izquierda
+        elif tipoMovDeshacer == "FI":
+            for c in range(coordInicial[1], coordFinal[1]-1, -1):
+                self.matriz[coordInicial[0]][c].setColor(" ")
+                camino.puntos.pop()
+                
+        #Hacia abajo       
+        elif tipoMovDeshacer == "CI":
+            for f in range(coordInicial[0], coordFinal[0]+1):
+                self.matriz[f][coordInicial[1]].setColor(" ")
+                camino.puntos.pop()
+                
+        #Hacia arriba
+        elif tipoMovDeshacer == "CS":         
+            for f in range(coordInicial[0], coordFinal[0]-1, -1):
+                self.matriz[f][coordInicial[1]].setColor(" ")
+                camino.puntos.pop()
+        
+        #Finalizar camino
+        camino.puntos.pop()
+        #Actualizar caminos
+        self.caminos[indiceColor] = camino
+        
+        #Actualizar el porcentaje
+        self.porcentaje = self.calcularPorcentaje()
+        
+        #Actualizar la cantidad de movimientos
+        self.cantMovimientos-=1
+        
+        #Actualizar el punto inicial
+        PuntoInicial.setUltimo(True)
+        PuntoFinal.setUltimo(False)
+        
+        return True  
+
+        
     def calcularPorcentaje(self)->float:
         total = self.dimension * self.dimension
         pintados = 0
@@ -248,4 +396,30 @@ class Tablero:
         return porcentaje
     
     def getPunto(self, f:int, c:int)->Punto:
-        return self.matriz[f][c]          
+        return self.matriz[f][c]
+              
+    def verificarVictoria(self)->bool:
+        
+        correctos=[]
+        for camino in self.caminos:
+            primerPunto:Punto = camino.puntos[0]
+            ultimoPunto:Punto = camino.puntos[-1]
+            
+            #Si son iguales, el camino no es correcto
+            coordInicial = primerPunto.getCoordenadas()
+            coordFinal = ultimoPunto.getCoordenadas()
+            if coordInicial == coordFinal:
+                correctos.append(False)
+            #Si alguno de los dos no es original, el camino no es correcto
+            elif not (primerPunto.getOriginal() and ultimoPunto.getOriginal()):
+                correctos.append(False)
+            else:
+                correctos.append(True)
+                
+        #Si todos los caminos son correctos, se gana
+        if correctos.count(True)==self.numPuntos:
+            #Si el porcentaje es 100, se gana
+            if self.porcentaje == 100:
+                return True
+        return False
+                
