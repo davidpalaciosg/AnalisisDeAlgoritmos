@@ -160,7 +160,7 @@ class Tablero:
             return "N"
 
         # Si el punto inicial es de los originales y existe un camino activo, no se puede realizar el movimiento
-        if PuntoInicial.getOrigeinal() and self.caminosActivos[self.colores.index(PuntoInicial.getColor())]:
+        if PuntoInicial.getOriginal() and self.caminosActivos[self.colores.index(PuntoInicial.getColor())]:
             print("ERROR: Existe un camino activo con ese color")
             return "N"
 
