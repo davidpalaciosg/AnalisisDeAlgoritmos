@@ -1,0 +1,2 @@
+1. Ejecutar en una terminal:
+        python FlowFree.py
