@@ -38,12 +38,17 @@ def main():
         print("Opción no válida, intentelo de nuevo")
         sys.exit()
     
-    #Actualizar tablero
+    #Actualizar controlador
     archivo = flowfree.listaArchivos[opcion]
     flowfree.archivo = archivo
     flowfree.tablero.leerDatosDesdeArchivo(archivo)
     flowfree.tablero.filas = flowfree.tablero.datos.shape[0]
     flowfree.tablero.columnas = flowfree.tablero.datos.shape[1]
     print(flowfree.tablero)
+    
+    print("Hallando solución...")
+    solucion = flowfree.encontrarSolucion()
+    print("Solución encontrada")
+    print(solucion)
     
 main()

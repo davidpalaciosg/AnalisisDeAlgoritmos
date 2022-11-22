@@ -20,3 +20,7 @@ class Camino:
         self.j = j
         self.k = k
         self.l = l
+        
+    def __str__(self) -> str:
+        cadena = "Color: "+str(self.c)+" Inicio: ("+str(self.i)+","+str(self.j)+") Fin: ("+str(self.k)+","+str(self.l)+")"
+        return cadena

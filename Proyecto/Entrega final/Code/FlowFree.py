@@ -7,11 +7,16 @@ Clase FlowFree:
         -archivo (str): archivo de tablero a utilizar         
     - Métodos:
         -crearListaArchivos(self): Crea la lista de archivos de tableros
-        -crearCaminos(self): Crea la combinatoria de caminos del juego
-        -validarCaminos(self,caminos:list): Valida que los caminos sean correctos
+        -crearCaminos(self): Crea todos los caminos posibles del tablero
+        -encontrarSolucion(self): Busca la solución del tablero mediante la combinatoria de los caminos
+        -validarCaminos(self,caminos:list): Valida que una combinatoria de caminos sea válida
+        -validarTableroPrueba(self,tableroPrueba:pd.DataFrame): Valida que el tablero de prueba sea correcto
+
 '''
 import pandas as pd
 import Tablero as Tablero
+import Camino as Camino
+import itertools
 class FlowFree:
     tablero:Tablero = None
     colores:list = None
@@ -43,4 +48,65 @@ class FlowFree:
                               cadena9x9+"9x9_1.csv",
                               cadena9x9+"9x9_2.csv"]
         return listaArchivos
+    
+    #Valida que una combinatoria de caminos sea correcta
+    def validarCaminos(self,caminos:list)->bool:
+        #Copiar el tablero original
+        tableroPrueba = self.tablero.datos.copy()
+        #Recorrer los caminos
+        for camino in caminos:
+            color = camino.c
+            i = camino.i
+            j = camino.j
+            k = camino.k
+            l = camino.l
+            
+            #Si el camino es diagonal, no es válido
+            if i!=k and j!=l:
+                return False
+            
+            #Si algún camino se solapa con otro, no es válido
+            if tableroPrueba[i][j] != 0:
+                return False
+            if tableroPrueba[k][l] != 0:
+                return False
+            
+            #Asignar el color al camino
+            tableroPrueba[i][j] = color
+            tableroPrueba[k][l] = color
+            
+        #Validar el tablero
+        return self.validarTableroPrueba(tableroPrueba)
+    
+    #Valida si un tablero de prueba es correcto      
+    def validarTableroPrueba(self,tableroPrueba:pd.DataFrame)->bool:
+        #Recorrer el tablero
+        for i in range(self.tablero.filas):
+            for j in range(self.tablero.columnas):
+                #Si el tablero tiene un 0, no es válido
+                if tableroPrueba[i][j] == 0:
+                    return False
+        return True
+    
+    #Crea todos los caminos posibles del tablero
+    def crearCaminos(self)->list:
+        caminos = []
+        #Crear todos los caminos posibles
+        for i in range(self.tablero.filas):
+            for j in range(self.tablero.columnas):
+                for k in range(self.tablero.filas):
+                    for l in range(self.tablero.columnas):
+                        for color in self.colores:
+                            caminoNuevo = Camino.Camino(color,i,j,k,l)
+                            caminos.append(caminoNuevo)
+        return caminos
+    
+    #Encuentra la solución del tablero verificando todas las combinaciones posibles
+    def encontrarSolucion(self)->list:
+        caminos = self.crearCaminos()
+        for r in range(1,len(caminos)+1):
+            for combinacion in itertools.combinations(caminos,r):
+                if self.validarCaminos(combinacion):
+                    return combinacion
+            
         
