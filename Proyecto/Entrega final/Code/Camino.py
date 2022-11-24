@@ -5,7 +5,7 @@ Clase Camino:
         -i (int): fila de inicio del camino
         -j (int): columna de inicio del camino
         -k (int): fila de fin del camino
-        -j (int): columna de fin del camino
+        -l (int): columna de fin del camino
         
 '''
 class Camino:
@@ -13,7 +13,7 @@ class Camino:
     i:int = None
     j:int = None
     k:int = None
-    j:int = None
+    l:int = None
     def __init__(self,c:int,i:int,j:int,k:int,l:int) -> None:
         self.c = c
         self.i = i
